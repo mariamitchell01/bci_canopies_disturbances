@@ -49,7 +49,7 @@ print(disturbances_raster)
 
 with fiona.open(os.path.join(shps,"boundary.shp"), "r") as shapefile:
         shapes = [feature["geometry"] for feature in shapefile]
-outfolder2 =r'C:\Users\Vicente\repo\gapcontagion\disturbances_cropped' 
+outfolder2 =r'C:\Users\P_pol\repo\bci_canopies_disturbances\disturbances_cropped' 
 if not os.path.exists(outfolder2): 
     os.makedirs(outfolder2)
 
@@ -73,11 +73,13 @@ for date in disturbances_raster:
         print(f"raster overriden and cropped to {path}")
 
 #read and plot sanity check
-distance_dir =r'C:\Users\Vicente\repo\gapcontagion\distances_rasters' 
+distance_dir =r'C:\Users\P_pol\repo\bci_canopies_disturbances\distances' 
 if not os.path.exists(distance_dir): 
     os.makedirs(distance_dir)
 disturbances= [file for file in os.listdir(outfolder2) if file.endswith('.tif')]
+search_radius=100
 for date in disturbances:
+    date=disturbances[0]
     path = os.path.join(outfolder2, date)
     with rasterio.open(path) as src:
         data= src.read(1)
@@ -87,7 +89,12 @@ for date in disturbances:
             for col in range(distances.shape[1]):
                 pixel_coordinates = np.array([[row, col]])
                 pixel_coords_2023 = np.column_stack((row_indices, col_indices))
-                distances_to_ones = distance.cdist(pixel_coordinates, pixel_coords_2023)
+
+                valid_indices = np.where(
+                    (np.abs(row - row_indices) <= search_radius) & 
+                    (np.abs(col - col_indices) <= search_radius)
+                )
+                distances_to_ones = distance.cdist(pixel_coordinates, pixel_coords_2023[valid_indices])
                 min_distance = np.min(distances_to_ones)
                 distances[row, col] = min_distance
         new_distances_raster_path = os.path.join(outfolder2, 'distances_to_ones.tif')
@@ -96,10 +103,23 @@ for date in disturbances:
         print("Distances raster created:", new_distances_raster_path)
 
 
+import rasterstat
+
+def mymean(x):
+    return np.ma.mean(x)
+
+zonal_stats("tests/data/polygons.shp",
+    "tests/data/slope.tif",
+    stats="count",
+    add_stats={'mymean':mymean})
 
 
 
+#crop to just island pictures
 
+#so just run cdist in non NA pixels = if  no is.na(pixel_coords_2023 NA the continue 
+
+#we need rasterstats
 
 
 
