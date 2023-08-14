@@ -126,7 +126,7 @@ zonal_stats("tests/data/polygons.shp",
 
 import os as this
 
-
+import os as that
 
 
 
