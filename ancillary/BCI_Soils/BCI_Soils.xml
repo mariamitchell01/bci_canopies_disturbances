@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?><MD_Metadata xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:xalan="http://xml.apache.org/xalan" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.isotc211.org/2005/gmd">
+    <language>
+        <LanguageCode codeList="http://www.loc.gov/standards/iso639-2/php/code_list.php" codeListValue="spa" codeSpace="ISO639-2">spa</LanguageCode>
+    </language>
+    <characterSet>
+        <MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8" codeSpace="ISOTC211/19115">utf8</MD_CharacterSetCode>
+    </characterSet>
+    <hierarchyLevel>
+        <MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset" codeSpace="ISOTC211/19115">dataset</MD_ScopeCode>
+    </hierarchyLevel>
+    <hierarchyLevelName>
+        <gco:CharacterString>dataset</gco:CharacterString>
+    </hierarchyLevelName>
+    <contact>
+        <CI_ResponsibleParty>
+            <individualName>
+                <gco:CharacterString>Milton J. Solano</gco:CharacterString>
+            </individualName>
+            <organisationName>
+                <gco:CharacterString>STRI</gco:CharacterString>
+            </organisationName>
+            <positionName>
+                <gco:CharacterString>GIS Analyst</gco:CharacterString>
+            </positionName>
+            <contactInfo>
+                <CI_Contact>
+                    <phone>
+                        <CI_Telephone>
+                            <voice>
+                                <gco:CharacterString>507 212-8279</gco:CharacterString>
+                            </voice>
+                        </CI_Telephone>
+                    </phone>
+                    <address>
+                        <CI_Address>
+                            <deliveryPoint>
+                                <gco:CharacterString>Edificio Tupper</gco:CharacterString>
+                            </deliveryPoint>
+                            <city>
+                                <gco:CharacterString>Panama</gco:CharacterString>
+                            </city>
+                            <postalCode>
+                                <gco:CharacterString>0843-01000</gco:CharacterString>
+                            </postalCode>
+                            <country>
+                                <Country codeList="http://www.iso.org/iso/country_codes/iso_3166_code_lists.htm" codeListValue="PA" codeSpace="ISO3166-1">PA</Country>
+                            </country>
+                            <electronicMailAddress>
+                                <gco:CharacterString>solanom@si.edu</gco:CharacterString>
+                            </electronicMailAddress>
+                        </CI_Address>
+                    </address>
+                </CI_Contact>
+            </contactInfo>
+            <role>
+                <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher" codeSpace="ISOTC211/19115">publisher</CI_RoleCode>
+            </role>
+        </CI_ResponsibleParty>
+    </contact>
+    <dateStamp>
+        <gco:Date>2020-02-10</gco:Date>
+    </dateStamp>
+    <metadataStandardName>
+        <gco:CharacterString>ISO 19139 Geographic Information - Metadata - Implementation Specification</gco:CharacterString>
+    </metadataStandardName>
+    <metadataStandardVersion>
+        <gco:CharacterString>2007</gco:CharacterString>
+    </metadataStandardVersion>
+    <spatialRepresentationInfo>
+        <MD_VectorSpatialRepresentation>
+            <topologyLevel>
+                <MD_TopologyLevelCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopologyLevelCode" codeListValue="geometryOnly" codeSpace="ISOTC211/19115">geometryOnly</MD_TopologyLevelCode>
+            </topologyLevel>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="composite" codeSpace="ISOTC211/19115">composite</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>23</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+        </MD_VectorSpatialRepresentation>
+    </spatialRepresentationInfo>
+    <referenceSystemInfo>
+        <MD_ReferenceSystem>
+            <referenceSystemIdentifier>
+                <RS_Identifier>
+                    <code>
+                        <gco:CharacterString>32617</gco:CharacterString>
+                    </code>
+                    <codeSpace>
+                        <gco:CharacterString>EPSG</gco:CharacterString>
+                    </codeSpace>
+                    <version>
+                        <gco:CharacterString>2.1(3.0.1)</gco:CharacterString>
+                    </version>
+                </RS_Identifier>
+            </referenceSystemIdentifier>
+        </MD_ReferenceSystem>
+    </referenceSystemInfo>
+    <identificationInfo>
+        <MD_DataIdentification>
+            <citation>
+                <CI_Citation>
+                    <title>
+                        <gco:CharacterString>BCI Soils</gco:CharacterString>
+                    </title>
+                    <alternateTitle>
+                        <gco:CharacterString>Soil Survey of Barro Colorado Island</gco:CharacterString>
+                    </alternateTitle>
+                    <date gco:nilReason="missing"/>
+                    <editionDate>
+                        <gco:Date>2006-02-01</gco:Date>
+                    </editionDate>
+                    <citedResponsibleParty>
+                        <CI_ResponsibleParty>
+                            <individualName>
+                                <gco:CharacterString>Milton J. Solano</gco:CharacterString>
+                            </individualName>
+                            <organisationName>
+                                <gco:CharacterString>STRI</gco:CharacterString>
+                            </organisationName>
+                            <positionName>
+                                <gco:CharacterString>GIS Analyst</gco:CharacterString>
+                            </positionName>
+                            <contactInfo>
+                                <CI_Contact>
+                                    <phone>
+                                        <CI_Telephone>
+                                            <voice>
+                                                <gco:CharacterString>507 212-8279</gco:CharacterString>
+                                            </voice>
+                                        </CI_Telephone>
+                                    </phone>
+                                    <address>
+                                        <CI_Address>
+                                            <deliveryPoint>
+                                                <gco:CharacterString>Edificio Tupper</gco:CharacterString>
+                                            </deliveryPoint>
+                                            <city>
+                                                <gco:CharacterString>Panama</gco:CharacterString>
+                                            </city>
+                                            <postalCode>
+                                                <gco:CharacterString>0843-01000</gco:CharacterString>
+                                            </postalCode>
+                                            <country>
+                                                <Country codeList="http://www.iso.org/iso/country_codes/iso_3166_code_lists.htm" codeListValue="PA" codeSpace="ISO3166-1">PA</Country>
+                                            </country>
+                                            <electronicMailAddress>
+                                                <gco:CharacterString>solanom@si.edu</gco:CharacterString>
+                                            </electronicMailAddress>
+                                        </CI_Address>
+                                    </address>
+                                </CI_Contact>
+                            </contactInfo>
+                            <role>
+                                <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher" codeSpace="ISOTC211/19115">publisher</CI_RoleCode>
+                            </role>
+                        </CI_ResponsibleParty>
+                    </citedResponsibleParty>
+                    <presentationForm>
+                        <CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="mapDigital" codeSpace="ISOTC211/19115">mapDigital</CI_PresentationFormCode>
+                    </presentationForm>
+                </CI_Citation>
+            </citation>
+            <abstract>
+                <gco:CharacterString>This shapefile contains Soil Data survey, done by the Institut für Geoökologie, Universität Potsdam, Germany, under a contract to the Smithsonian Tropical Research Institute, Panama between 2005-2006.
+
+The soil samples were analysed by in the laboratories of the Institut für Geoökologie and Institut für Chemie, Universität Potsdam, with granulometric analyses performed by the Institut für Geographie, Universität Mainz. The survey is based on 484 dedicated soil survey auger observations at 443 sites and 30 detailed soil profile descriptions.  The augering for the soil survey was done in three stages - main survey, boundary checking, and spatial variability testing.
+
+Soils were examined at subjectively chosen sites where landscape features indicate soil differences in the main free survey, (Jenny 1980; Hudson, 1992).  It was used the trail network and 100 m markers for ease of access and navigation and to maximize the proportion of field time spent on the soils. Most of the main survey augerings were near trails. The trails tend to follow ridge and spur crests, especially in the steeper terrain in the northwestern part of the island, although Svenning et al. (2004) found that the topographic bias of the trail system is less than first appears. Nonetheless, still consciously avoided the tendency to over-sample ridges and upper slopes by augering along short topographic transects, usually at three points - crest, midslope and lakeshore - at subjectively chosen points along the trails. The additional check augerings in 2005 were sited subjectively to resolve particular problems of boundary location on the draft soil map. 
+
+In 2006 eight test augerings were randomly located in nested dumbbell layouts at 1, 10 and 100 m scales at each of seven sites, located to characterise the morphological variation within soil mapping units. 
+
+All augerings were done with a 7 cm diameter Terrasystem (USA) or Edelman (Eijkelkamp, Netherlands) augers.  Because the BCI dry season imposes some moisture stress on the vegetation, more emphasis than usual was given to soil depth.  In the main survey some soils were augered to 2 m, and the rest to 1.5m, unless stopped by unequivocal saprolite or hard stones.  Where augering was stopped at less than 50 cm by hard stones, duplicate attempts were made nearby (&amp;lt; 3 m).To download the PDF report of this study, use the following link:BCI Soil Mapping Report</gco:CharacterString>
+            </abstract>
+            <purpose>
+                <gco:CharacterString>This shapefile contains Soil Data survey, done by the Institut für Geoökologie, Universität Potsdam, Germany, under a contract to the Smithsonian Tropical Research Institute, Panama between 2005-2006. </gco:CharacterString>
+            </purpose>
+            <credit>
+                <gco:CharacterString>Baillie, Ian &amp; Elsenbeer, H. &amp; Barthold, Frauke &amp; Grimm, Rosina &amp; Stallard, R. (2006). Semi-Detailed Soil Survey of Barro Colorado Island, Panama. </gco:CharacterString>
+            </credit>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>Downloadable Data</gco:CharacterString>
+                    </keyword>
+                    <thesaurusName uuidref="723f6998-058e-11dc-8314-0800200c9a66"/>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>suelos</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>barro colorado</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>baillie</gco:CharacterString>
+                    </keyword>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>suelos</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>barro colorado</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>baillie</gco:CharacterString>
+                    </keyword>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>suelos</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>barro colorado</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>baillie</gco:CharacterString>
+                    </keyword>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <resourceConstraints>
+                <MD_Constraints>
+                    <useLimitation>
+                        <gco:CharacterString>This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.</gco:CharacterString>
+                    </useLimitation>
+                </MD_Constraints>
+            </resourceConstraints>
+            <spatialRepresentationType>
+                <MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="vector" codeSpace="ISOTC211/19115">vector</MD_SpatialRepresentationTypeCode>
+            </spatialRepresentationType>
+            <language>
+                <LanguageCode codeList="http://www.loc.gov/standards/iso639-2/php/code_list.php" codeListValue="spa" codeSpace="ISO639-2">spa</LanguageCode>
+            </language>
+            <characterSet>
+                <MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8" codeSpace="ISOTC211/19115">utf8</MD_CharacterSetCode>
+            </characterSet>
+            <topicCategory>
+                <MD_TopicCategoryCode>geoscientificInformation</MD_TopicCategoryCode>
+            </topicCategory>
+            <environmentDescription>
+                <gco:CharacterString> Version 6.2 (Build 9200) ; Esri ArcGIS 10.7.1.11595</gco:CharacterString>
+            </environmentDescription>
+            <extent>
+                <EX_Extent>
+                    <geographicElement>
+                        <EX_GeographicBoundingBox>
+                            <extentTypeCode>
+                                <gco:Boolean>true</gco:Boolean>
+                            </extentTypeCode>
+                            <westBoundLongitude>
+                                <gco:Decimal>-79.870947</gco:Decimal>
+                            </westBoundLongitude>
+                            <eastBoundLongitude>
+                                <gco:Decimal>-79.819011</gco:Decimal>
+                            </eastBoundLongitude>
+                            <southBoundLatitude>
+                                <gco:Decimal>9.132533</gco:Decimal>
+                            </southBoundLatitude>
+                            <northBoundLatitude>
+                                <gco:Decimal>9.179726</gco:Decimal>
+                            </northBoundLatitude>
+                        </EX_GeographicBoundingBox>
+                    </geographicElement>
+                </EX_Extent>
+            </extent>
+        </MD_DataIdentification>
+    </identificationInfo>
+    <distributionInfo>
+        <MD_Distribution>
+            <distributionFormat>
+                <MD_Format>
+                    <name>
+                        <gco:CharacterString>File Geodatabase Feature Class</gco:CharacterString>
+                    </name>
+                    <version gco:nilReason="missing"/>
+                </MD_Format>
+            </distributionFormat>
+            <distributor>
+                <MD_Distributor>
+                    <distributorContact>
+                        <CI_ResponsibleParty>
+                            <individualName>
+                                <gco:CharacterString>Milton J. Solano</gco:CharacterString>
+                            </individualName>
+                            <organisationName>
+                                <gco:CharacterString>STRI</gco:CharacterString>
+                            </organisationName>
+                            <positionName>
+                                <gco:CharacterString>GIS Analyst</gco:CharacterString>
+                            </positionName>
+                            <contactInfo>
+                                <CI_Contact>
+                                    <phone>
+                                        <CI_Telephone>
+                                            <voice>
+                                                <gco:CharacterString>507 212-8279</gco:CharacterString>
+                                            </voice>
+                                        </CI_Telephone>
+                                    </phone>
+                                    <address>
+                                        <CI_Address>
+                                            <deliveryPoint>
+                                                <gco:CharacterString>Edificio Tupper</gco:CharacterString>
+                                            </deliveryPoint>
+                                            <city>
+                                                <gco:CharacterString>Panama</gco:CharacterString>
+                                            </city>
+                                            <postalCode>
+                                                <gco:CharacterString>0843-01000</gco:CharacterString>
+                                            </postalCode>
+                                            <country>
+                                                <Country codeList="http://www.iso.org/iso/country_codes/iso_3166_code_lists.htm" codeListValue="PA" codeSpace="ISO3166-1">PA</Country>
+                                            </country>
+                                            <electronicMailAddress>
+                                                <gco:CharacterString>solanom@si.edu</gco:CharacterString>
+                                            </electronicMailAddress>
+                                        </CI_Address>
+                                    </address>
+                                </CI_Contact>
+                            </contactInfo>
+                            <role>
+                                <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor" codeSpace="ISOTC211/19115">distributor</CI_RoleCode>
+                            </role>
+                        </CI_ResponsibleParty>
+                    </distributorContact>
+                    <distributorFormat>
+                        <MD_Format>
+                            <name>
+                                <gco:CharacterString>Soil Survey of Barro Colorado Island website</gco:CharacterString>
+                            </name>
+                            <version>
+                                <gco:CharacterString>1.1</gco:CharacterString>
+                            </version>
+                        </MD_Format>
+                    </distributorFormat>
+                    <distributorTransferOptions>
+                        <MD_DigitalTransferOptions>
+                            <onLine>
+                                <CI_OnlineResource>
+                                    <linkage>
+                                        <URL>http://biogeodb.stri.si.edu/bioinformatics/bci_soil_map/</URL>
+                                    </linkage>
+                                    <protocol>
+                                        <gco:CharacterString>Internet access</gco:CharacterString>
+                                    </protocol>
+                                    <description>
+                                        <gco:CharacterString>005</gco:CharacterString>
+                                    </description>
+                                    <function>
+                                        <CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information" codeSpace="ISOTC211/19115">information</CI_OnLineFunctionCode>
+                                    </function>
+                                </CI_OnlineResource>
+                            </onLine>
+                        </MD_DigitalTransferOptions>
+                    </distributorTransferOptions>
+                </MD_Distributor>
+            </distributor>
+        </MD_Distribution>
+    </distributionInfo>
+</MD_Metadata>
