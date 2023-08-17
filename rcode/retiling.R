@@ -3,9 +3,9 @@
 #edited by mia mitchell & vicente vasquez
 
 # Although not a full solution -- to still access the
-the packages that kc used at the time, you can use the groundhog package
+## the packages that kc used at the time, you can use the groundhog package
 # Some functions nonetheless that are depracted are replaced
-but some comparable functions have not be updated in lidR that I am aware of
+## but some comparable functions have not be updated in lidR that I am aware of
 
 
 # Install packages
