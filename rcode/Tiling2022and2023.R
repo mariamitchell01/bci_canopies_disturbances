@@ -1,5 +1,12 @@
 
-#install packages
+#original author: kc cushman
+#edited by mia mitchell & vicente vasquez
+
+# Although not a full solution -- to still access the the packages that kc used at the time, you can use the groundhog package
+# Some functions nonetheless that are depracted are replaced, but some comparable functions have not be updated in lidR that I am aware of
+
+
+# Install packages
 
 install.packages("groundhog")
 groundhog::groundhog.library("lidR","2020-11-01")
@@ -8,14 +15,17 @@ groundhog::groundhog.library("sp","2020-09-01")
 groundhog::groundhog.library("rgdal","2020-09-01")
 
 
-#read in the catalogs
+# Read in the catalogs
 
-cat21 <- lidR::catalog("D:/TroubleshootingV/pointclouds/2021_06_29_BCI_Dipteryx.las")
-cat22 <- lidR::catalog("D:/TroubleshootingV/pointclouds/2022_07_21_medium_1.las")
-cat23f <- lidR::catalog("D:/TroubleshootingV/pointclouds/BCI_whole_2023_06_19_medium.las")
+cat18 <- lidR::catalog("/pointclouds/2021_06_29_BCI_Dipteryx.las")
+cat19 <- lidR::catalog("/pointclouds/2021_06_29_BCI_Dipteryx.las")
+cat20 <- lidR::catalog("/pointclouds/2021_06_29_BCI_Dipteryx.las")
+cat21 <- lidR::catalog("/pointclouds/2021_06_29_BCI_Dipteryx.las")
+cat22 <- lidR::catalog("/pointclouds/2022_07_21_medium_1.las")
+cat23 <- lidR::catalog("/pointclouds/BCI_whole_2023_06_19_medium.las")
 
 
-#### Create grid for new .las tiles ####
+#### Create grid for new .las tiles 
 
 xmin <- 623400
 xmax <- 630100
@@ -34,7 +44,8 @@ gridInfo <- data.frame(xmin=rep(xmins, length(ymins)),
                        ymax=rep(ymaxs, each=length(xmins)))
 
 # Only keep grid cells that actually overlay BCI, using BCI soils shapefile
-soils <- rgdal::readOGR("D:/TroubleshootingV/Data_Ancillary/BCI_Soils/BCI_Soils.shp")
+
+soils <- rgdal::readOGR("Data_Ancillary/BCI_Soils/BCI_Soils.shp")
 soils <- sp::spTransform(soils,"+proj=utm +zone=17 +datum=WGS84 +units=m +no_defs")
 
 gridInfo$Use <- NA
@@ -56,14 +67,18 @@ for(i in 1:dim(gridInfo)[1]){
 }
 
 # Only keep tiles that overlap BCI soils shapefile
+
 gridInfo <- gridInfo[gridInfo$Use==T,]
 gridInfo$ID <- 1:dim(gridInfo)[1]
 
-write.csv(gridInfo, row.names = F, file = ("D:/TroubleshootingV/Data_Ancillary/gridInfo.csv"))
+write.csv(gridInfo, row.names = F, file = ("/Data_Ancillary/gridInfo.csv"))
+
+# Retiling
 
 overlap <- 30
 
-### retile 2023 photogrammetry point cloud with overlap ####
+#Retile 2023 photogrammetry point cloud with overlap
+
 
 # full-resolution
 for(i in 1:dim(gridInfo)[1]){
@@ -73,7 +88,7 @@ for(i in 1:dim(gridInfo)[1]){
                                  xright = gridInfo$xmax[i] + overlap,
                                  ytop = gridInfo$ymax[i] + overlap)
   if(length(data@data$X)>0){
-    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI23FTiles/BCIf23_",i,".laz"))
+    lidR::writeLAS(data, file=paste0("/BCI23Tiles/BCI23_",i,".laz"))
   }
   
   print(i)
@@ -88,13 +103,13 @@ for(i in 1:dim(gridInfo)[1]){
                                  ytop = gridInfo$ymax[i] + overlap)
   data <- lidR::decimate_points(data, algorithm = lidR::highest(res=0.5))
   if(length(data@data$X)>0){
-    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI23FTiles_dec/BCI23fd_",i,".laz"))
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI23Tiles_dec/BCI23d_",i,".laz"))
   }
   
   print(i)
 }
 
-### retile 2022 photogrammetry point cloud with overlap ####
+# Retile 2022 photogrammetry point cloud with overlap 
 
 # full-resolution
 for(i in 1:dim(gridInfo)[1]){
@@ -125,6 +140,132 @@ for(i in 1:dim(gridInfo)[1]){
   print(i)
 }
 
+# Retile 2021 photogrammetry point cloud with overlap 
+
+# full-resolution
+for(i in 1:dim(gridInfo)[1]){
+  data <- lidR::clip_rectangle(cat21, 
+                               xleft = gridInfo$xmin[i] - overlap,
+                               ybottom = gridInfo$ymin[i] - overlap,
+                               xright = gridInfo$xmax[i] + overlap,
+                               ytop = gridInfo$ymax[i] + overlap)
+  if(length(data@data$X)>0){
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI22Tiles/BCI21_",i,".laz"))
+  }
+  
+  print(i)
+}
+
+#decimated
+for(i in 1:dim(gridInfo)[1]){
+  data <- lidR::clip_rectangle(cat21, 
+                               xleft = gridInfo$xmin[i] - overlap,
+                               ybottom = gridInfo$ymin[i] - overlap,
+                               xright = gridInfo$xmax[i] + overlap,
+                               ytop = gridInfo$ymax[i] + overlap)
+  data <- lidR::decimate_points(data, algorithm = lidR::highest(res=0.5))
+  if(length(data@data$X)>0){
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI21Tiles_dec/BCI21d_",i,".laz"))
+  }
+  
+  print(i)
+}
+
+# Retile 2020 photogrammetry point cloud with overlap 
+
+# full-resolution
+for(i in 1:dim(gridInfo)[1]){
+  data <- lidR::clip_rectangle(cat20, 
+                               xleft = gridInfo$xmin[i] - overlap,
+                               ybottom = gridInfo$ymin[i] - overlap,
+                               xright = gridInfo$xmax[i] + overlap,
+                               ytop = gridInfo$ymax[i] + overlap)
+  if(length(data@data$X)>0){
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI20Tiles/BCI20_",i,".laz"))
+  }
+  
+  print(i)
+}
+
+#decimated
+for(i in 1:dim(gridInfo)[1]){
+  data <- lidR::clip_rectangle(cat20, 
+                               xleft = gridInfo$xmin[i] - overlap,
+                               ybottom = gridInfo$ymin[i] - overlap,
+                               xright = gridInfo$xmax[i] + overlap,
+                               ytop = gridInfo$ymax[i] + overlap)
+  data <- lidR::decimate_points(data, algorithm = lidR::highest(res=0.5))
+  if(length(data@data$X)>0){
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI20Tiles_dec/BCI20d_",i,".laz"))
+  }
+  
+  print(i)
+}
+
+
+# Retile 2019 photogrammetry point cloud with overlap 
+
+# full-resolution
+for(i in 1:dim(gridInfo)[1]){
+  data <- lidR::clip_rectangle(cat19, 
+                               xleft = gridInfo$xmin[i] - overlap,
+                               ybottom = gridInfo$ymin[i] - overlap,
+                               xright = gridInfo$xmax[i] + overlap,
+                               ytop = gridInfo$ymax[i] + overlap)
+  if(length(data@data$X)>0){
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI19Tiles/BCI19_",i,".laz"))
+  }
+  
+  print(i)
+}
+
+#decimated
+for(i in 1:dim(gridInfo)[1]){
+  data <- lidR::clip_rectangle(cat19, 
+                               xleft = gridInfo$xmin[i] - overlap,
+                               ybottom = gridInfo$ymin[i] - overlap,
+                               xright = gridInfo$xmax[i] + overlap,
+                               ytop = gridInfo$ymax[i] + overlap)
+  data <- lidR::decimate_points(data, algorithm = lidR::highest(res=0.5))
+  if(length(data@data$X)>0){
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI19Tiles_dec/BCI19d_",i,".laz"))
+  }
+  
+  print(i)
+}
+
+# Retile 2018 photogrammetry point cloud with overlap 
+
+# full-resolution
+for(i in 1:dim(gridInfo)[1]){
+  data <- lidR::clip_rectangle(cat18, 
+                               xleft = gridInfo$xmin[i] - overlap,
+                               ybottom = gridInfo$ymin[i] - overlap,
+                               xright = gridInfo$xmax[i] + overlap,
+                               ytop = gridInfo$ymax[i] + overlap)
+  if(length(data@data$X)>0){
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI19Tiles/BCI18_",i,".laz"))
+  }
+  
+  print(i)
+}
+
+#decimated
+for(i in 1:dim(gridInfo)[1]){
+  data <- lidR::clip_rectangle(cat18, 
+                               xleft = gridInfo$xmin[i] - overlap,
+                               ybottom = gridInfo$ymin[i] - overlap,
+                               xright = gridInfo$xmax[i] + overlap,
+                               ytop = gridInfo$ymax[i] + overlap)
+  data <- lidR::decimate_points(data, algorithm = lidR::highest(res=0.5))
+  if(length(data@data$X)>0){
+    lidR::writeLAS(data, file=paste0("D:/TroubleshootingV/tiles/BCI18Tiles_dec/BCI18d_",i,".laz"))
+  }
+  
+  print(i)
+}
+
+
 #### Rename transition matrix files ####
 
 # renames output from running do22to21.bat before running apply2022transformation.bat
@@ -151,7 +292,6 @@ for(i in 1:dim(gridInfo)[1]){
 
 # THESE DATA FOLDERS ARE ARCHIVED
 
-path2 <- "D:/TroubleshootingV/tiles"
 
 # 2022
 for(i in 1:dim(gridInfo)[1]){
