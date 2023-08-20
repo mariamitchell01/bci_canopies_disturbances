@@ -124,6 +124,8 @@ zonal_stats("tests/data/polygons.shp",
 
 #memory issues arg
 
+import os as this
+
 import os as that
 
 
