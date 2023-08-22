@@ -13,10 +13,12 @@ import fiona
 from rasterio.plot import show
 import numpy as np
 from scipy.spatial import distance
+from scipy.ndimage import distance_transform_edt
 
 #shapefiles
-shps= r'C:\Users\Vicente\repo\gapcontagion\shapefiles' 
+shps= r'C:\Users\P_pol\repo\bci_canopies_disturbances\shapefiles_disturbances' 
 shp_files = [file for file in os.listdir(shps) if file.endswith('.shp')]
+path= os.path.join(shps,shp_files[1])
 
 raster_resolution = 1
 outfolder = r'C:\Users\Vicente\repo\gapcontagion\disturbances' 
@@ -77,98 +79,74 @@ distance_dir =r'C:\Users\P_pol\repo\bci_canopies_disturbances\distances'
 if not os.path.exists(distance_dir): 
     os.makedirs(distance_dir)
 disturbances= [file for file in os.listdir(outfolder2) if file.endswith('.tif')]
-search_radius=100
+
+#distance_transform _edt is the answer
+disturbances
 for date in disturbances:
-    date=disturbances[0]
     path = os.path.join(outfolder2, date)
     with rasterio.open(path) as src:
-        data= src.read(1)
-        row_indices, col_indices = np.where(data== 1)
-        distances = np.zeros_like(data, dtype=float)
-        for row in range(distances.shape[0]):
-            for col in range(distances.shape[1]):
-                pixel_coordinates = np.array([[row, col]])
-                pixel_coords_2023 = np.column_stack((row_indices, col_indices))
-
-                valid_indices = np.where(
-                    (np.abs(row - row_indices) <= search_radius) & 
-                    (np.abs(col - col_indices) <= search_radius)
-                )
-                distances_to_ones = distance.cdist(pixel_coordinates, pixel_coords_2023[valid_indices])
-                min_distance = np.min(distances_to_ones)
-                distances[row, col] = min_distance
-        new_distances_raster_path = os.path.join(outfolder2, 'distances_to_ones.tif')
-        with rasterio.open(new_distances_raster_path, 'w', **src.profile) as dst:
+        data = src.read(1)
+        distances = distance_transform_edt(data == 0).astype(np.float32)
+        profile = src.profile
+        profile.update(dtype=rasterio.float32)
+        new_distances_raster_path = os.path.join(distance_dir, date)
+        with rasterio.open(new_distances_raster_path, 'w', **profile) as dst:
             dst.write(distances, 1)
         print("Distances raster created:", new_distances_raster_path)
 
 
-import rasterstat
 
-def mymean(x):
-    return np.ma.mean(x)
+#delta of the distances yeart to year, archaic method and chat gpt loop version
 
-zonal_stats("tests/data/polygons.shp",
-    "tests/data/slope.tif",
-    stats="count",
-    add_stats={'mymean':mymean})
+distance_dir =r'C:\Users\P_pol\repo\bci_canopies_disturbances\distances' 
+distances_files= [file for file in os.listdir(distance_dir) if file.endswith('.tif')]
 
+with rasterio.open(os.path.join(distance_dir,distances_files[0])) as src:
+    data18= src.read(1)
 
+with rasterio.open(os.path.join(distance_dir,distances_files[1])) as src:
+    data19= src.read(1)
+    
+with rasterio.open(os.path.join(distance_dir,distances_files[2])) as src:
+    data20= src.read(1)
 
-#crop to just island pictures
+with rasterio.open(os.path.join(distance_dir,distances_files[3])) as src:
+    data21= src.read(1)
+    
+with rasterio.open(os.path.join(distance_dir,distances_files[4])) as src:
+    data22= src.read(1)
 
-#so just run cdist in non NA pixels = if  no is.na(pixel_coords_2023 NA the continue 
+# Calculate the difference
+delta1 = data18 - data19
+delta2= data19-data20
+delta3=data20-data21
+delta4=data21-data22
 
-#we need rasterstats
-
-
-#memory issues arg
-
-import os as that
-
-
-
-
-
-
-
-
-
-allbounds = []
-
-#sanity check: checking shapes, bounds <3
-for date in disturbances_raster:
-    path = os.path.join(outfolder2, date)
-    print("working with path:", path)
-    with rasterio.open(path) as crocodile:
-        data = crocodile.read()
-        shape = data.shape
-        bounds = crocodile.bounds
-    allbounds.append(bounds)
-    print(date, shape, bounds)
+dirout=r'C:\Users\P_pol\repo\bci_canopies_disturbances\distancess_delta'
+if not os.path.exists(dirout):
+    os.makedirs(dirout)
 
 
-#to create boundary for crop
-df_bounds = pd.DataFrame(allbounds, columns=['xmin', 'ymin', 'xmax', 'ymax'])
-box_xmin, box_ymin, box_xmax, box_ymax = df_bounds["xmin"].max(), df_bounds["ymin"].max(), df_bounds["xmax"].min(), df_bounds["ymax"].min()
-crop_box = box(box_xmin, box_ymin, box_xmax, box_ymax)
-print(crop_box.wkt)
-df = gpd.GeoDataFrame({"id":1,"geometry":[crop_box]})
-df.to_file(os.path.join(shps,"boundary.shp"))
 
-shp_2020=r'C:\Users\P_pol\Downloads\drive-download-20230812T214513Z-001\gaps18to20sp.shp'
-#rasterize 18-20
-rasterize_2020= gpd.read_file(shp_2020)
-rasterize_2020.crs
-xmin, ymin, xmax, ymax= rasterize_2020.total_bounds
+distance_dir = r'C:\Users\P_pol\repo\bci_canopies_disturbances\distances'
+output_dir = r'C:\Users\P_pol\repo\bci_canopies_disturbances\distancess_delta'
 
+distances_files = [file for file in os.listdir(distance_dir) if file.endswith('.tif')]
+distances_files.sort()
 
-width = int((xmax - xmin) / raster_resolution)
-height = int((ymax - ymin) / raster_resolution)
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
-transform = from_origin(xmin, ymax, raster_resolution, raster_resolution)
-mask = geometry_mask(rasterize_2020.geometry, transform=transform, out_shape=(height, width), invert=True)
+for i in range(len(distances_files) - 1):
+    with rasterio.open(os.path.join(distance_dir, distances_files[i])) as src1, \
+         rasterio.open(os.path.join(distance_dir, distances_files[i + 1])) as src2:       
+        data1 = src1.read(1)
+        data2 = src2.read(1)
+        delta = data1 - data2
+        output_path = os.path.join(output_dir, f'delta_{i}.tif')
+        profile = src1.profile
+        profile.update(dtype=rasterio.uint16)  
+        with rasterio.open(output_path, 'w', **profile) as dst:
+            dst.write(delta, 1)
+        print("Delta data raster saved:", output_path)
 
-out= r'C:\Users\P_pol\Downloads\rasterize18_20.tif'
-with rasterio.open(out, 'w', driver='GTiff', height=height, width=width, count=1, dtype='uint8', crs=rasterize_2020.crs, transform=transform) as dst:
-    dst.write(mask.astype(rasterio.uint8), 1)
