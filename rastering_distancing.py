@@ -13,6 +13,8 @@ import rasterio.mask
 import fiona
 from rasterio.plot import show
 import numpy as np
+from shapely.geometry import MultiPolygon
+
 from scipy.spatial import distance
 from scipy.ndimage import distance_transform_edt
 
@@ -54,20 +56,43 @@ print(rasters_disturbances)
 
 
 #### create folder for cropped disturbance reasters #####
-with fiona.open(os.path.join(aux_shps,"boundary.shp"), "r") as shapefile:
+with fiona.open(, "r") as shapefile:
         shapes = [feature["geometry"] for feature in shapefile]
+thebounds= gpd.read_file(os.path.join(aux_shps,'BCI_Outline_Minus25.shp'))
+crs
+thebounds.crs=crs
+thebounds.total_bounds
+shapes=thebounds['geometry'][0]
 outfolder2 =r'/Volumes/LaCie/stri_thesis/processed_data/rasters_disturbances_cropped' 
 if not os.path.exists(outfolder2): 
     os.makedirs(outfolder2)
 
+shapes.total_bounds
 #### crop the rasters to same extent ######
 for date in rasters_disturbances:
+    path=os.path.join(outfolder,date)
+    with rasterio.open(path) as src:
+        thebounds= src.bounds
+        print(thebounds)
+
+shapes
+if isinstance(shapes, MultiPolygon):
+                multi_polygon = shapes
+                polygons = list(multi_polygon.geoms)
+                largest_polygon = max(polygons, key=lambda polygon: polygon.area)
+                bounds = largest_polygon.bounds
+
+l
+for date in rasters_disturbances:
+    date= rasters_disturbances[0]
     path = os.path.join(outfolder, date)
     print("working with path:", path)
     with rasterio.open(path) as crocodile:     
         print("numpy array read")
-        outimage, outtransform = rasterio.mask.mask(crocodile, shapes, crop=True)
+        crs=crocodile.crs
+        outimage, outtransform = rasterio.mask.mask(crocodile,[largest_polygon], crop=True)
         print("finished")
+        data[data==src.nodata]=0
         out_meta = crocodile.meta.copy()
         out_meta.update({
             'height': outimage.shape[1],
@@ -100,6 +125,5 @@ for date in rasters_disturbances:
         with rasterio.open(new_distances_raster_path, 'w', **profile) as dst:
             dst.write(distances, 1)
         print("Distances raster created:", new_distances_raster_path)
-
 
 
