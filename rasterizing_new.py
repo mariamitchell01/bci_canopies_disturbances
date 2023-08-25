@@ -25,6 +25,10 @@ outfolder = r'C:\Users\Vicente\repo\gapcontagion\disturbances'
 if not os.path.exists(outfolder): 
     os.makedirs(outfolder)
 
+#with rasterio.open(path) as src:
+#if src values equal to na then 0
+#    data = src.read(1)
+
 
 for date in shp_files:
     print("rasterizing", os.path.join(shps,date) )
@@ -51,6 +55,9 @@ print(disturbances_raster)
 
 with fiona.open(os.path.join(shps,"boundary.shp"), "r") as shapefile:
         shapes = [feature["geometry"] for feature in shapefile]
+#get shape bounds
+xmin,ymin,xmax,ymax=gap_polygons.total_bounds
+
 outfolder2 =r'C:\Users\P_pol\repo\bci_canopies_disturbances\disturbances_cropped' 
 if not os.path.exists(outfolder2): 
     os.makedirs(outfolder2)
@@ -63,6 +70,7 @@ for date in disturbances_raster:
         print("numpy array read")
         outimage, outtransform = rasterio.mask.mask(crocodile, shapes, crop=True)
         print("slay")
+        s
         out_meta = crocodile.meta.copy()
         out_meta.update({
             'height': outimage.shape[1],
@@ -137,6 +145,7 @@ distances_files.sort()
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
+#writing the loop
 for i in range(len(distances_files) - 1):
     with rasterio.open(os.path.join(distance_dir, distances_files[i])) as src1, \
          rasterio.open(os.path.join(distance_dir, distances_files[i + 1])) as src2:       
@@ -149,4 +158,5 @@ for i in range(len(distances_files) - 1):
         with rasterio.open(output_path, 'w', **profile) as dst:
             dst.write(delta, 1)
         print("Delta data raster saved:", output_path)
+
 
