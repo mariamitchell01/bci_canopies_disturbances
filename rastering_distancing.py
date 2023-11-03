@@ -19,31 +19,19 @@ from scipy.spatial import distance
 from scipy.ndimage import distance_transform_edt
 
 #### read in disturbance shapefiles ####
-shps= r'C:\Users\P_pol\repo\bci_canopies_disturbances\shapefiles_disturbances' 
+shps= r'/Volumes/LaCie/stri_thesis/processed_data/shapefiles_disturbances' 
 aux_shps = r'/Volumes/LaCie/stri_thesis/processed_data/aux_shps'
-path_bci = r'C:\Users\P_pol\repo\bci_canopies_disturbances\aux_shps\BCI_Outline_Minus25.shp'
-distance_dir =r'C:\Users\P_pol\repo\bci_canopies_disturbances\distances' 
-outfolder2=r'C:\Users\P_pol\repo\bci_canopies_disturbances\disturbances_cropped' 
-outfolder = r'C:\Users\P_pol\repo\bci_canopies_disturbances\disturbances' 
-
 shp_files = [file for file in os.listdir(shps) if file.endswith('.shp')]
-
-if not os.path.exists(distance_dir): 
-    os.makedirs(distance_dir)
-if not os.path.exists(outfolder2): 
-    os.makedirs(outfolder2)  
-if not os.path.exists(distance_dir):
-    os.makedirs(distance_dir)
-if not os.path.exists(outfolder): 
-    os.makedirs(outfolder)
+path= os.path.join(shps,shp_files[1])
 
 #### create outfolder for disturbance rasters #####
 raster_resolution = 1
-
+outfolder = r'/Volumes/LaCie/stri_thesis/processed_data/rasters_disturbances' 
+if not os.path.exists(outfolder): 
+    os.makedirs(outfolder)
 
 ##### rasterize the disturbance shapefiles #####
 for date in shp_files:
-    date= shp_files[0]
     print("rasterizing", os.path.join(shps,date) )
     gap_polygons= gpd.read_file(os.path.join(shps,date))
     xmin,ymin,xmax,ymax=gap_polygons.total_bounds
@@ -57,12 +45,6 @@ for date in shp_files:
     plt.imshow(mask, extent=(xmin, xmax, ymin, ymax), origin='lower', cmap='gray')
     plt.title(f"Mask for {date}")
     plt.show()
-    # i have largest_polygon which is polygon i want everything out of that polygon to be an NA
-    out_image, out_transform= rasterio.mask.mask(mask,[largest_polygon], crop=True)
-    plt.figure(figsize=(8, 8))
-    plt.imshow(out_image[0], extent=(xmin, xmax, ymin, ymax), origin='lower', cmap='gray')
-    plt.title(f"Mask for {date}")
-    plt.show()
     out_path = os.path.join(outfolder, os.path.splitext(date)[0] + '.tif')
     with rasterio.open(out_path, 'w', driver='GTiff', height=height, width=width, count=1, dtype='uint8', crs=gap_polygons.crs, transform=transform) as dst:
         dst.write(mask.astype(rasterio.uint8), 1)
@@ -73,25 +55,45 @@ rasters_disturbances = [file for file in os.listdir(outfolder) if file.endswith(
 print(rasters_disturbances)
 
 
-#### read bci shapefile #### 
-shapes = gpd.read_file(path_bci)                                #reads geopandas data frame containin shapes ion ['geometry'] column
-shapes['geometry'] = shapes['geometry'].to_crs(epsg=32617)      #reproject to desiered CRS
-if isinstance(shapes, MultiPolygon):                            #if it is a multipolygon
-                multi_polygon = shapes
-                polygons = list(multi_polygon.geoms)            #list of polygons that compose the multipolygon
-                largest_polygon = max(polygons, key=lambda polygon: polygon.area)
+#### create folder for cropped disturbance reasters #####
+with fiona.open(, "r") as shapefile:
+        shapes = [feature["geometry"] for feature in shapefile]
+thebounds= gpd.read_file(os.path.join(aux_shps,'BCI_Outline_Minus25.shp'))
+crs
+thebounds.crs=crs
+thebounds.total_bounds
+shapes=thebounds['geometry'][0]
+outfolder2 =r'/Volumes/LaCie/stri_thesis/processed_data/rasters_disturbances_cropped' 
+if not os.path.exists(outfolder2): 
+    os.makedirs(outfolder2)
 
-largest_polygon.bounds
+shapes.total_bounds
+#### crop the rasters to same extent ######
 for date in rasters_disturbances:
+    path=os.path.join(outfolder,date)
+    with rasterio.open(path) as src:
+        thebounds= src.bounds
+        print(thebounds)
+
+shapes
+if isinstance(shapes, MultiPolygon):
+                multi_polygon = shapes
+                polygons = list(multi_polygon.geoms)
+                largest_polygon = max(polygons, key=lambda polygon: polygon.area)
+                bounds = largest_polygon.bounds
+
+l
+for date in rasters_disturbances:
+    date= rasters_disturbances[0]
     path = os.path.join(outfolder, date)
     print("working with path:", path)
     with rasterio.open(path) as crocodile:     
         print("numpy array read")
-        data = crocodile.read(1)
-        outimage, outtransform = rasterio.mask.mask(crocodile,[largest_polygon], crop=True, nodata=-9999)  #!the brackets are important very important because it needs to be iterable
-        plt.imshow(outimage[0], cmap='viridis')  # You can change the cmap as needed
-        plt.show()                                #take out as needed
-        out_meta = crocodile.meta.copy()     
+        crs=crocodile.crs
+        outimage, outtransform = rasterio.mask.mask(crocodile,[largest_polygon], crop=True)
+        print("finished")
+        data[data==src.nodata]=0
+        out_meta = crocodile.meta.copy()
         out_meta.update({
             'height': outimage.shape[1],
             'width': outimage.shape[2],
@@ -102,12 +104,16 @@ for date in rasters_disturbances:
             dest.write(outimage)
         print(f"raster overriden and cropped to {path}")
 
+##### create folder for distance-to-gap rasters ####
+distance_dir =r'/Volumes/LaCie/stri_thesis/processed_data/raster_distances' 
+if not os.path.exists(distance_dir): 
+    os.makedirs(distance_dir)
+
 ##### overwrite previous raster_disturbances #####
 raster_disturbances = [file for file in os.listdir(outfolder2) if file.endswith('.tif')]
 
 ##### use distance_transform _edt for finding the distance to gaps ###
 for date in rasters_disturbances:
-    date = rasters_disturbances[0]
     path = os.path.join(outfolder2, date)
     with rasterio.open(path) as src:
         data = src.read(1)
